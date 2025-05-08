@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Expense Details{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="mb-0"><i class="fas fa-receipt me-2"></i>Expense Details</h2>
+                <div>
+                    <a href="{% url 'expense-update' expense.id %}" class="btn btn-primary">
+                        <i class="fas fa-edit me-1"></i>Edit
+                    </a>
+                    <a href="{% url 'expense-delete' expense.id %}" class="btn btn-danger">
+                        <i class="fas fa-trash me-1"></i>Delete
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h3 class="text-primary mb-3">{{ user.profile.currency }} {{ expense.amount|floatformat:2 }}</h3>
+                        <p><strong>Date:</strong> {{ expense.date|date:"F d, Y" }}</p>
+                        <p><strong>Category:</strong> <span class="badge bg-secondary">{{ expense.category.name }}</span></p>
+                        <p><strong>Created:</strong> {{ expense.created_at|date:"F d, Y H:i" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        {% if expense.receipt %}
+                            <div class="text-center">
+                                <img src="{{ expense.receipt.url }}" alt="Receipt" class="img-fluid img-thumbnail" style="max-height: 200px;">
+                                <div class="mt-2">
+                                    <a href="{{ expense.receipt.url }}" class="btn btn-sm btn-outline-primary" target="_blank">
+                                        <i class="fas fa-search-plus me-1"></i>View Full Size
+                                    </a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="text-center text-muted">
+                                <i class="fas fa-receipt fa-5x mb-3"></i>
+                                <p>No receipt attached</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <h5>Description</h5>
+                <div class="p-3 bg-light rounded">
+                    {% if expense.description %}
+                        <p>{{ expense.description|linebreaks }}</p>
+                    {% else %}
+                        <p class="text-muted">No description provided</p>
+                    {% endif %}
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{% url 'expense-list' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Back to Expenses
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

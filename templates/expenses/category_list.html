@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Categories - Expense Tracker{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="mb-4"><i class="fas fa-tags me-2"></i>Expense Categories</h1>
+    </div>
+    <div class="col-auto">
+        <a href="{% url 'category-create' %}" class="btn btn-primary">
+            <i class="fas fa-plus me-1"></i>Add Category
+        </a>
+    </div>
+</div>
+
+{% if categories %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for category in categories %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">
+                                {% if category.icon %}
+                                    <i class="fa-solid {{ category.icon }} me-2"></i>
+                                {% endif %}
+                                {{ category.name }}
+                            </h5>
+                            <div>
+                                <a href="{% url 'category-update' category.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'category-delete' category.id %}" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            Click to view expenses in this category
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info text-center">
+        <h4 class="alert-heading">No categories found</h4>
+        <p>You haven't created any expense categories yet.</p>
+        <hr>
+        <a href="{% url 'category-create' %}" class="btn btn-primary">Add Your First Category</a>
+    </div>
+{% endif %}
+{% endblock %}
